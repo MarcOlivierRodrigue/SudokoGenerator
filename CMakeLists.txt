@@ -4,4 +4,12 @@ project(SudokuGenerator)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(SudokuGenerator main.cpp)
+set(HEADERS includes/Grid.h
+	includes/Printer.h )
+
+set(SOURCES src/Grid.cpp
+    src/Printer.cpp)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes) 
+
+add_executable(SudokuGenerator main.cpp ${HEADERS} ${SOURCES})
