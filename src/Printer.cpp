@@ -27,17 +27,17 @@ int Printer::digitsInInt(int num) const
     }
 }
 
-void Printer::printSquare(const Square* const square, int totalSpace) const
+void Printer::printSquare(int square, int totalSpace) const
 {
-    if(!square->isHidden)
+    if(square != 0)
     {
-        int digitCount = digitsInInt(square->num);
+        int digitCount = digitsInInt(square);
         int initialSpace = totalSpace - (digitCount + 1);
         for(int i = 0; i < initialSpace; ++i)
         {
             std::cout << " ";
         } 
-        std::cout << square->num << " ";
+        std::cout << square << " ";
     }
     else
     {
@@ -74,7 +74,7 @@ void Printer::printGrid(const Grid& grid) const
                 std::cout << "|";
             }
 
-            printSquare(grid(i,j), charPerSquare);
+            printSquare(*grid(i,j), charPerSquare);
             std::cout << "|";
         }
         std::cout << "\n";

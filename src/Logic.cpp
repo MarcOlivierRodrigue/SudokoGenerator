@@ -12,7 +12,7 @@ bool Logic::isUnusedInSubGrid(const Grid* const grid, int m_i, int m_j, int val)
     {
         for(int j = m_j; j < m_j + grid->getSubGridCols(); ++j)
         {
-            if((*grid)(i, j)->num == val)
+            if(*(*grid)(i, j) == val)
             {
                 return false;
             }
@@ -25,7 +25,7 @@ bool Logic::isUnusedInRow(const Grid* const grid, int i, int val) const
 {
     for(int j = 0; j < grid->getSideLen(); ++j)
     {
-        if((*grid)(i, j)->num == val)
+        if(*(*grid)(i, j) == val)
         {
             return false;
         }
@@ -37,7 +37,7 @@ bool Logic::isUnusedInCol(const Grid* const grid, int j, int val) const
 {
     for(int i = 0; i < grid->getSideLen(); ++i)
     {
-        if((*grid)(i, j)->num == val)
+        if(*(*grid)(i, j) == val)
         {
             return false;
         }

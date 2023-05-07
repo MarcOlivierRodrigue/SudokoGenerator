@@ -7,7 +7,7 @@ Grid::Grid(int sideLen) :
     m_subGridRows(sqrt(sideLen)),
     m_subGridCols(sqrt(sideLen))
 {
-    m_data = new Square[sideLen*sideLen];
+    m_data = new int[sideLen*sideLen];
 }
 
 Grid::Grid(int sideLen, int subGridRows, int subGridCols) :
@@ -16,7 +16,7 @@ Grid::Grid(int sideLen, int subGridRows, int subGridCols) :
     m_subGridCols(subGridCols)
 {
     assert(subGridRows*subGridCols == sideLen);
-    m_data = new Square[sideLen*sideLen];
+    m_data = new int[sideLen*sideLen];
 }
 
 
@@ -25,12 +25,12 @@ Grid::~Grid()
     delete[] m_data;
 }
 
-Square* Grid::operator()(int i, int j)
+int* Grid::operator()(int i, int j)
 {
     return m_data + (i * m_sideLen + j);
 }
 
-const Square* const Grid::operator()(int i, int j) const
+const int* const Grid::operator()(int i, int j) const
 {
     return m_data + (i * m_sideLen + j);
 }

@@ -2,7 +2,6 @@
 
 // Foward declaration of the grid Class and Square
 class Grid;
-struct Square;
 
 class Printer
 {
@@ -12,6 +11,6 @@ public:
     void printGrid(const Grid& grid) const;
 private:
     void printLine(int len) const;
-    void printSquare(const Square* const square, int totalSpace) const;
+    void printSquare(int square, int totalSpace) const;
     int digitsInInt(int len) const;
 };

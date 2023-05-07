@@ -17,8 +17,10 @@ void Builder::fillSudoku(Grid* grid)
     int subGridRows = grid->getSubGridRows();
     int subGridCols = grid->getSubGridCols();
 
+    fillDiagnal(grid);
+    fillNonDiagnal(grid);
+    /*
     int lastSquarePosibilities;
-
     for(int k = 0; k < sideLen*sideLen; ++k)
     {
         int i = k / sideLen;
@@ -32,10 +34,10 @@ void Builder::fillSudoku(Grid* grid)
         std::set<int> triedValues;
 
         // If we backtracked and a value is already there
-        if((*grid)(i,j)->num != 0)
+        if(*(*grid)(i,j) != 0)
         {
-            triedValues.insert((*grid)(i,j)->num);
-            (*grid)(i,j)->num = 0;
+            triedValues.insert(*(*grid)(i,j));
+            *(*grid)(i,j) = 0;
         }
         int initalVal = selectRandomNum(sideLen); 
         int val = initalVal;   
@@ -49,10 +51,13 @@ void Builder::fillSudoku(Grid* grid)
             }
             val = incrementVal(val, sideLen);
         }
+        std::cout << "K:" << k << " " << m_i << " " <<  m_j << std::endl;
+        std::cout << triedValues.size() << std::endl;
+
 
         if(triedValues.size() != sideLen)
         {
-            (*grid)(i,j)->num = val;
+            *(*grid)(i,j) = val;
             lastSquarePosibilities = triedValues.size();
         }
         else
@@ -60,6 +65,17 @@ void Builder::fillSudoku(Grid* grid)
             k -= 2;
         }
     }
+    */
+}
+
+void Builder::fillDiagnal(Grid* grid)
+{
+
+}
+
+void Builder::fillNonDiagnal(Grid* grid)
+{
+
 }
 
 
