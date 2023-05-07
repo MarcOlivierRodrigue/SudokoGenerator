@@ -27,7 +27,6 @@ void Builder::fillSudoku(Grid* grid)
         // get the subgrid initial coordinates
         int m_i = i / subGridRows * subGridRows;
         int m_j = j / subGridCols * subGridCols;
-        std::cout << "K :" << k << " " << m_i << " " << m_j << std::endl;
 
         // Initialize the table to keep track of all the values we have tried
         std::set<int> triedValues;
@@ -51,8 +50,6 @@ void Builder::fillSudoku(Grid* grid)
             val = incrementVal(val, sideLen);
         }
 
-        std::cout << triedValues.size() << std::endl;
-
         if(triedValues.size() != sideLen)
         {
             (*grid)(i,j)->num = val;
@@ -60,16 +57,8 @@ void Builder::fillSudoku(Grid* grid)
         }
         else
         {
-            if(lastSquarePosibilities == sideLen - 1 && k >= 2)
-            {
-                k -= 3;
-            }
-            else
-            {
-                k -= 2;
-            }
+            k -= 2;
         }
-        
     }
 }
 
