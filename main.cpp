@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
                 break;
             case 4: 
                 // VERY BIG
-                grid = new Grid(16129);
+                grid = new Grid(60);
                 break;
             default:
                 std::cout<< "ERROR: invalid input" << std::endl;
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
                 break;
         }
         
-        builder.fillSudoku(grid);
+        builder.fillSudoku(*grid);
 
         if(gridRes < 4)
         {

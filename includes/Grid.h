@@ -13,6 +13,7 @@ public:
     int getSubGridCols() const; 
     int getSubGridXCoord(int j) const;
     int getSubGridYCoord(int i) const;
+    void reset();
 private:
     Grid();
     const int m_sideLen;

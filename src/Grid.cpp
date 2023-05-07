@@ -1,6 +1,7 @@
 #include <math.h>
 #include "Grid.h"
 #include <assert.h>
+#include <string.h>
 
 Grid::Grid(int sideLen) : 
     m_sideLen(sideLen), 
@@ -8,6 +9,7 @@ Grid::Grid(int sideLen) :
     m_subGridCols(sqrt(sideLen))
 {
     m_data = new int[sideLen*sideLen];
+    memset(m_data, 0, sizeof(int)*sideLen*sideLen);
 }
 
 Grid::Grid(int sideLen, int subGridRows, int subGridCols) :
@@ -17,6 +19,7 @@ Grid::Grid(int sideLen, int subGridRows, int subGridCols) :
 {
     assert(subGridRows*subGridCols == sideLen);
     m_data = new int[sideLen*sideLen];
+    memset(m_data, 0, sizeof(int)*sideLen*sideLen);
 }
 
 
@@ -48,5 +51,10 @@ int  Grid::getSubGridRows() const
 int  Grid::getSubGridCols() const
 {
     return m_subGridCols;
+}
+
+void Grid::reset()
+{
+    memset(m_data, 0, sizeof(int)*m_sideLen*m_sideLen);
 }
 
