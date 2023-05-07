@@ -2,32 +2,38 @@
 #include <limits>
 #include "Grid.h"
 #include "Printer.h"
+#include "Builder.h"
 
 
 int main(int argc, char *argv[])
 {
     int gridRes = -1;
     Printer printer;
+    Builder builder;
     Grid* grid;
 
     while (gridRes == -1)
     {
-        std::cout << "What board do you want?: " << std::endl << "1. 4x4" << std::endl << "2. 6x6" << std::endl <<  "3. 9x9" << std::endl;
+        std::cout << "What board do you want?: " << std::endl << "1. 4x4" << std::endl << "2. 6x6" << std::endl <<  "3. 9x9" << std::endl << "4. VERY BIG" << std::endl;
         std::cin >> gridRes;
 
         switch (gridRes)
         {
             case 1:
-                std::cout << "4x4" << std::endl;
+                // 4x4
                 grid = new Grid(4);
                 break;
             case 2:
-                std::cout << "6x6" << std::endl;
+                // 6x6
                 grid = new Grid(6,2,3);
                 break;
             case 3: 
-                std::cout << "9x9" << std::endl;
+                // 9x9
                 grid = new Grid(9);
+                break;
+            case 4: 
+                // VERY BIG
+                grid = new Grid(16129);
                 break;
             default:
                 std::cout<< "ERROR: invalid input" << std::endl;
@@ -36,8 +42,15 @@ int main(int argc, char *argv[])
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
         }
-        printer.printGrid(*grid);
+        
+        builder.fillSudoku(grid);
+
+        if(gridRes < 4)
+        {
+            printer.printGrid(*grid);
+        }
     }
     
+    delete grid;
     return 0;
 }

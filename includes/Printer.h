@@ -1,7 +1,8 @@
 #pragma once
 
-// Foward declaration of the grid Class
+// Foward declaration of the grid Class and Square
 class Grid;
+struct Square;
 
 class Printer
 {

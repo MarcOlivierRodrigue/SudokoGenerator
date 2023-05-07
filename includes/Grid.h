@@ -17,6 +17,8 @@ public:
     int getSideLen() const;
     int getSubGridRows() const;
     int getSubGridCols() const; 
+    int getSubGridXCoord(int j) const;
+    int getSubGridYCoord(int i) const;
 private:
     Grid();
     const int m_sideLen;
