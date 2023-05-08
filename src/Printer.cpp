@@ -74,7 +74,7 @@ void Printer::printGrid(const Grid& grid) const
                 std::cout << "|";
             }
 
-            printSquare(*grid(i,j), charPerSquare);
+            printSquare(grid(i,j), charPerSquare);
             std::cout << "|";
         }
         std::cout << "\n";

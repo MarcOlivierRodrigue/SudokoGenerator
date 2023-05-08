@@ -9,7 +9,7 @@ Grid::Grid(int sideLen) :
     m_subGridCols(sqrt(sideLen))
 {
     m_data = new int[sideLen*sideLen];
-    memset(m_data, 0, sizeof(int)*sideLen*sideLen);
+    empty();
 }
 
 Grid::Grid(int sideLen, int subGridRows, int subGridCols) :
@@ -19,7 +19,7 @@ Grid::Grid(int sideLen, int subGridRows, int subGridCols) :
 {
     assert(subGridRows*subGridCols == sideLen);
     m_data = new int[sideLen*sideLen];
-    memset(m_data, 0, sizeof(int)*sideLen*sideLen);
+    empty();
 }
 
 
@@ -28,14 +28,14 @@ Grid::~Grid()
     delete[] m_data;
 }
 
-int* Grid::operator()(int i, int j)
+int& Grid::operator()(int i, int j)
 {
-    return m_data + (i * m_sideLen + j);
+    return *(m_data + (i * m_sideLen + j));
 }
 
-const int* const Grid::operator()(int i, int j) const
+const int& Grid::operator()(int i, int j) const
 {
-    return m_data + (i * m_sideLen + j);
+    return *(m_data + (i * m_sideLen + j));
 }
 
 int  Grid::getSideLen() const
@@ -53,7 +53,27 @@ int  Grid::getSubGridCols() const
     return m_subGridCols;
 }
 
-void Grid::reset()
+int Grid::getSubGridXMargin(int j) const
+{
+    return j - j % m_subGridCols;
+}
+
+int Grid::getSubGridYMargin(int i) const
+{
+    return i - i % m_subGridRows;
+}
+
+int Grid::getSubGridXIndex(int j) const
+{
+    return j / m_subGridCols;
+}
+
+int Grid::getSubGridYIndex(int i) const
+{
+    return i / m_subGridRows;
+}
+
+void Grid::empty()
 {
     memset(m_data, 0, sizeof(int)*m_sideLen*m_sideLen);
 }

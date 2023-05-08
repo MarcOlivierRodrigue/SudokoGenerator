@@ -9,12 +9,12 @@ class Builder : public Logic
 public:
     Builder();
     ~Builder();
-    void fillSudoku(Grid& grid);
-private:
-    void fillDiagnal(Grid& grid);
-    void fillDiagnalSubGrid(Grid& grid, int m_i, int m_j);
-    bool fillNonDiagnal(Grid& grid, int i, int j);
-    int selectRandomNum(int max);
-    inline int incrementVal(int val, int max);
+    virtual void fillSudoku(Grid& grid);
+protected:
+    virtual void fillDiagnal(Grid& grid);
+    virtual void fillDiagnalSubGrid(Grid& grid, int m_i, int m_j);
+    virtual bool fillNonDiagnal(Grid& grid, int i, int j);
+    virtual void cancelPlacement(Grid& grid, int i, int j); 
+    virtual void placeValue(Grid& grid, int i, int j, int val); 
 };
 
