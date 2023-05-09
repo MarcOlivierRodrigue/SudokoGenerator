@@ -63,7 +63,7 @@ void Builder::fillDiagnalSubGrid(Grid& grid, int m_i, int m_j)
         i = k / subGridCols;
         j = k % subGridCols;
 
-        grid(m_i + i, m_j + j) = numSet[k]; 
+        this->placeValue(grid, m_i + i, m_j + j, numSet[k]);
     }
 }
 

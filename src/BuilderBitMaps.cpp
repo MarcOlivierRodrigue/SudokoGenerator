@@ -17,9 +17,9 @@ void BuilderBitMaps::fillSudoku(Grid& grid)
     while (nonSolvableProb)
     {
         grid.empty();
-        fillDiagnal(grid);
         initBitMaps(grid);
-
+        fillDiagnal(grid);
+        
         nonSolvableProb = !fillNonDiagnal(grid, 0, subGridCols);
     }
 }
@@ -45,20 +45,6 @@ void BuilderBitMaps::initBitMaps(const Grid& grid)
     std::fill(m_subGridsBM.begin(), m_subGridsBM.end(), 0);
     std::fill(m_rowsBM.begin(), m_rowsBM.end(), 0);
     std::fill(m_colsBM.begin(), m_colsBM.end(), 0);
-
-    for(int i = 0; i < sideLen; ++i)
-    {
-        for(int j = 0; j < sideLen; ++j)
-        {
-
-            if(grid(i,j) != 0)
-            {
-                m_subGridsBM[getSubGridIndex(i,j,subGridRows,subGridCols)] |= 1 << grid(i,j);
-                m_rowsBM[i] |= 1 << grid(i,j);
-                m_colsBM[j] |= 1 << grid(i,j);
-            }
-        }
-    }
 }
 
 inline int BuilderBitMaps::getSubGridIndex(int i, int j, int subGridRows, int subGridCols) const
