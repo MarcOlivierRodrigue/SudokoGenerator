@@ -98,8 +98,10 @@ bool Builder::fillNonDiagnal(Grid& grid, int i, int j)
     
     int m_i = grid.getSubGridYMargin(i);
     int m_j = grid.getSubGridXMargin(j);
+    int k = selectRandomNum(sideLen);
+    int ki = 0;
 
-    for(int k = 1; k <= sideLen; ++k)
+    while(ki < sideLen)
     {
         if(this->isSquareLegal(grid, m_i, m_j, i, j, k))
         {
@@ -110,6 +112,13 @@ bool Builder::fillNonDiagnal(Grid& grid, int i, int j)
             }
         }
         this->cancelPlacement(grid, i, j);
+        ++ki;
+
+        k += 1;
+        if(k > sideLen)
+        {
+            k = 1;
+        }
     }
     return false;
 }
@@ -123,4 +132,11 @@ void Builder::cancelPlacement(Grid& grid, int i, int j)
 void Builder::placeValue(Grid& grid, int i, int j, int val)
 {
     grid(i,j) = val;
+}
+
+int Builder::selectRandomNum(int max)
+{
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
+    return rand() % max + 1;
 }
