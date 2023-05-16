@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
-project(SudokuGenerator)
+cmake_minimum_required(VERSION 3.14)
+project(SudokuGenerator VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,6 +16,8 @@ set(SOURCES src/Grid.cpp
     src/BuilderBitMaps.cpp
     src/Logic.cpp)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes) 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-add_executable(SudokuGenerator main.cpp ${HEADERS} ${SOURCES})
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+add_executable(${PROJECT_NAME} main.cpp ${HEADERS} ${SOURCES})

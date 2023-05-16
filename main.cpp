@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
     int gridRes = -1;
     Printer printer;
-    BuilderBitMaps builder;
+    Builder builder;
     Grid* grid;
 
     while (gridRes == -1)
