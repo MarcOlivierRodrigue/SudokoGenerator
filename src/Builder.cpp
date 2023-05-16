@@ -116,9 +116,7 @@ bool Builder::fillNonDiagnal(Grid& grid, int i, int j)
 
         k += 1;
         if(k > sideLen)
-        {
             k = 1;
-        }
     }
     return false;
 }
