@@ -35,8 +35,6 @@ bool BuilderBitMaps::isSquareLegal(const Grid& grid, int m_i, int m_j, int i, in
 void BuilderBitMaps::initBitMaps(const Grid& grid)
 {
     int sideLen = grid.getSideLen();
-    int subGridRows = grid.getSubGridRows();
-    int subGridCols = grid.getSubGridCols();
 
     m_subGridsBM.resize(sideLen);
     m_rowsBM.resize(sideLen);
