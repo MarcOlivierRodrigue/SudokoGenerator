@@ -44,3 +44,4 @@ bool Logic::isUnusedInCol(const Grid& grid, int j, int val) const
     }
     return true;
 }
+

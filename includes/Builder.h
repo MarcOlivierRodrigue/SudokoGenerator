@@ -16,7 +16,5 @@ protected:
     virtual bool fillNonDiagnal(Grid& grid, int i, int j);
     virtual void cancelPlacement(Grid& grid, int i, int j); 
     virtual void placeValue(Grid& grid, int i, int j, int val); 
-private:
-    int selectRandomNum(int max);
 };
 

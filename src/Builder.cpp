@@ -1,13 +1,13 @@
 #include "Grid.h"
 #include "Builder.h"
-#include <chrono>
+#include "Util.h"
 #include <stdlib.h>
 #include <string.h>
-#include <set>
 #include <vector>
 #include <algorithm>
-#include <random>
 #include <iostream>
+#include <random>
+#include <chrono>
 
 
 Builder::Builder() {}
@@ -44,16 +44,16 @@ void Builder::fillDiagnal(Grid& grid)
 
 void Builder::fillDiagnalSubGrid(Grid& grid, int m_i, int m_j)
 {
-    std::vector<int> numSet;
+    std::vector<int> numVec;
     int sideLen = grid.getSideLen();
     int subGridCols = grid.getSubGridCols();
 
     for(int k = 1; k <= sideLen; ++k)
     {
-        numSet.push_back(k);
+        numVec.push_back(k);
     }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::shuffle(numSet.begin(), numSet.end(), std::default_random_engine(seed));
+    std::shuffle(numVec.begin(), numVec.end(), std::default_random_engine(seed));
 
     int i = 0;
     int j = 0;
@@ -63,7 +63,7 @@ void Builder::fillDiagnalSubGrid(Grid& grid, int m_i, int m_j)
         i = k / subGridCols;
         j = k % subGridCols;
 
-        this->placeValue(grid, m_i + i, m_j + j, numSet[k]);
+        this->placeValue(grid, m_i + i, m_j + j, numVec[k]);
     }
 }
 
@@ -85,6 +85,7 @@ bool Builder::fillNonDiagnal(Grid& grid, int i, int j)
         j = 0;
         i += 1;
 
+        // When we change line, we want to avoid the first subgrid on the top left corner
         if(grid.getSubGridYIndex(i) == 0)
         {
             j = subGridCols;
@@ -130,11 +131,4 @@ void Builder::cancelPlacement(Grid& grid, int i, int j)
 void Builder::placeValue(Grid& grid, int i, int j, int val)
 {
     grid(i,j) = val;
-}
-
-int Builder::selectRandomNum(int max)
-{
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    srand(seed);
-    return rand() % max + 1;
 }

@@ -9,4 +9,7 @@ The overall goal of this project is to make a Sudoku puzzle generator. There's a
     - Regular Backtrace
     - Backtrace with bitmaps
 
-Shout out to this paper by Andrew C. Stuart for starting me on the right path: https://www.sudokuwiki.org/Sudoku_Creation_and_Grading.pdf 
+Sources:
+ - Shout out to this paper by Andrew C. Stuart for starting me on the right path: https://www.sudokuwiki.org/Sudoku_Creation_and_Grading.pdf 
+ - https://www.geeksforgeeks.org/program-sudoku-generator/
+ - https://www.geeksforgeeks.org/sudoku-backtracking-7/

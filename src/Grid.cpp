@@ -1,5 +1,6 @@
 #include <math.h>
 #include "Grid.h"
+#include "Util.h"
 #include <assert.h>
 #include <string.h>
 
@@ -8,6 +9,7 @@ Grid::Grid(int sideLen) :
     m_subGridRows(sqrt(sideLen)),
     m_subGridCols(sqrt(sideLen))
 {
+    assert(isPerfectSquare(sideLen));
     m_data = new int[sideLen*sideLen];
     empty();
 }
@@ -77,4 +79,6 @@ void Grid::empty()
 {
     memset(m_data, 0, sizeof(int)*m_sideLen*m_sideLen);
 }
+
+
 
