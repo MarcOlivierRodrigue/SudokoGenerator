@@ -4,22 +4,12 @@ project(SudokuGenerator VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(HEADERS includes/Grid.h
-	includes/Printer.h
-    includes/Builder.h
-    includes/BuilderBitMaps.h
-    includes/Logic.h
-    includes/Util.h)
-
-set(SOURCES src/Grid.cpp
-    src/Printer.cpp
-    src/Builder.cpp
-    src/BuilderBitMaps.cpp
-    src/Logic.cpp
-    src/Util.cpp)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/util)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/structures)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/builders)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
-add_executable(${PROJECT_NAME} main.cpp ${HEADERS} ${SOURCES})
+
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} PUBLIC util)
+target_link_libraries(${PROJECT_NAME} PUBLIC structures)
+target_link_libraries(${PROJECT_NAME} PUBLIC builders)

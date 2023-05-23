@@ -4,7 +4,7 @@
 #include <ctime>
 #include "Grid.h"
 #include "Printer.h"
-#include "Builder.h"
+#include "BuilderBase.h"
 #include "BuilderBitMaps.h"
 
 
