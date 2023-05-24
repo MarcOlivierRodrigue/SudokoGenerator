@@ -5,19 +5,18 @@
 #include <string.h>
 #include <vector>
 #include <algorithm>
-#include <iostream>
 #include <random>
 #include <chrono>
 
 
-BuilderBase::BuilderBase() {}
+BuilderBase::BuilderBase() : m_updates(0) {}
 BuilderBase::~BuilderBase() {}
 
 void BuilderBase::fillSudoku(Grid& grid)
 {
     int sideLen = grid.getSideLen(); 
-    int subGridRows = grid.getSubGridRows();
     int subGridCols = grid.getSubGridCols();
+    resetUpdates();
 
     bool nonSolvableProb = true;
 
@@ -104,6 +103,8 @@ bool BuilderBase::fillNonDiagnal(Grid& grid, int i, int j)
 
     while(ki < sideLen)
     {
+        incrementUpdates();
+
         if(this->isSquareLegal(grid, m_i, m_j, i, j, k))
         {
             this->placeValue(grid, i, j, k);
@@ -127,8 +128,22 @@ void BuilderBase::cancelPlacement(Grid& grid, int i, int j)
     grid(i,j) = 0;
 }
 
-
 void BuilderBase::placeValue(Grid& grid, int i, int j, int val)
 {
     grid(i,j) = val;
+}
+
+unsigned long int BuilderBase::getUpdatesCount() const
+{
+    return m_updates;
+}
+
+void BuilderBase::incrementUpdates()
+{
+    ++m_updates;
+}
+
+void BuilderBase::resetUpdates()
+{
+    m_updates = 0;
 }

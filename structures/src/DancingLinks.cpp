@@ -1,79 +1,97 @@
+#include "Grid.h"
 #include "DancingLinks.h"
 
 #include <iostream>
 
-Link::Link() {}
+Node::Node()
+{
+    m_bottom = this;
+    m_top = this;
+    m_left = this;
+    m_right = this;
+}
 
-Link::~Link()
+Node::~Node()
 {
     std::cout << "Link destructor" << std::endl;
-    if(m_top != nullptr)
-    {
-        m_top->m_bottom = m_bottom;
-    }
-
-    if(m_bottom != nullptr)
-    {
-        m_bottom->m_top = m_top;
-    }
-
-    if(m_left != nullptr)
-    {
-        m_left->m_right = m_right;
-    }
-
-    if(m_right != nullptr)
-    {
-        m_right->m_left = m_left;
-    }
+    unlinkTD();
+    unlinkLR();
 }
 
-Link* Link::getTop()
+void Node::unlinkTD()
 {
-    return m_top;
+    m_top->m_bottom = m_bottom;
+    m_bottom->m_top = m_top;
 }
 
-Link* Link::getBottom() 
+void Node::relinkTD()
 {
-    return m_bottom;
+    m_top->m_bottom = this;
+    m_bottom->m_top = this;
 }
 
-Link* Link::getRight() 
+void Node::unlinkLR()
 {
-    return m_right;
+    m_left->m_right = m_right;
+    m_right->m_left = m_left;
 }
 
-Link* Link::getLeft() 
+void Node::relinkLR()
 {
-    return m_left;
+    m_left->m_right = this;
+    m_right->m_left = this;
 }
 
-void Link::setTop(Link* top)
+void Node::setRowData(int val, int i, int j)
 {
-    m_top = top;
 }
+/*
+//-------------------------------------------- COLUMN HEADER --------------------------------------------------//
 
-void Link::setBottom(Link* bottom)
+ColumnHeader::ColumnHeader() : Node()
+{}
+
+ColumnHeader::~ColumnHeader()
 {
-    m_bottom = bottom;
+    unlinkTD();
+    unlinkLR();
 }
 
-void Link::setRight(Link* right)
+int ColumnHeader::getColId() const
 {
-    m_right = right;
+    return m_colId;
 }
 
-void Link::setLeft(Link* left)
-{
-    m_left = left;
-}
-
-int Link::getCol() const
-{
-    return m_col;
-}
-
-int Link::getSize() const
+int ColumnHeader::getSize() const
 {
     return m_size;
 }
+
+void ColumnHeader::setSize(int size)
+{
+    m_size = size;
+}
+
+void ColumnHeader::incrementSize()
+{
+    ++m_size;
+}
+
+void ColumnHeader::decrementSize()
+{
+    --m_size;
+}
+
+//-------------------------------------------- Dancing Links Grid --------------------------------------------------//
+
+DancingLinksGrid::DancingLinksGrid(const Grid& grid)
+{
+    int sideLen = grid.getSideLen();
+    root = new ColumnHeader[4 * sideLen * sideLen];
+}
+
+DancingLinksGrid::~DancingLinksGrid()
+{
+    delete[] root;
+}
+*/

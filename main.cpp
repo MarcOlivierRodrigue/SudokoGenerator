@@ -12,8 +12,12 @@ int main(int argc, char *argv[])
 {
     int gridRes = -1;
     Printer printer;
-    BuilderBitMaps builder;
+    BuilderBase* builder;
     Grid* grid;
+
+    std::chrono::high_resolution_clock::time_point start;
+    std::chrono::high_resolution_clock::time_point end;
+    std::chrono::duration<double> time_span;
 
     while (gridRes == -1)
     {
@@ -56,17 +60,20 @@ int main(int argc, char *argv[])
                 break;
         }
         
+        builder = new BuilderBitMaps();
 
-        std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-        builder.fillSudoku(*grid);
-        std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
+        start = std::chrono::high_resolution_clock::now();
+        builder->fillSudoku(*grid);
+        end = std::chrono::high_resolution_clock::now();
+        time_span = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
 
         printer.printGrid(*grid);
 
         std::cout << "time to build: " << time_span.count() << " seconds" << std::endl;
+        std::cout << "recursive operations: " << builder->getUpdatesCount() << std::endl;
     }
     
+    delete builder;
     delete grid;
     return 0;
 }

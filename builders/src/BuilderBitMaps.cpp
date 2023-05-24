@@ -1,7 +1,6 @@
 #include "Grid.h"
 #include "BuilderBitMaps.h"
 #include <string.h>
-#include <iostream>
 
 BuilderBitMaps::BuilderBitMaps() {}
 BuilderBitMaps::~BuilderBitMaps() {}
@@ -9,8 +8,8 @@ BuilderBitMaps::~BuilderBitMaps() {}
 void BuilderBitMaps::fillSudoku(Grid& grid)
 {
     int sideLen = grid.getSideLen(); 
-    int subGridRows = grid.getSubGridRows();
     int subGridCols = grid.getSubGridCols();
+    resetUpdates();
 
     bool nonSolvableProb = true;
 
