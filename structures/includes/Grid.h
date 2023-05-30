@@ -17,6 +17,8 @@ public:
     int getSubGridXMargin(int j) const;
     int getSubGridYMargin(int i) const;
     void empty();
+protected:
+    int* getData();
 private:
     Grid();
     const int m_sideLen;

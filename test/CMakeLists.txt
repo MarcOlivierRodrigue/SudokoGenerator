@@ -11,8 +11,12 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-set(HEADERS)
-set(SOURCES src/util_test.cpp)
+set(HEADERS includes/Grid_test.h)
+set(SOURCES src/Util_test.cpp
+    src/Grid_test.cpp)
 
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} ${HEADER})
 target_link_libraries(${PROJECT_NAME} gtest gtest_main util structures builders)

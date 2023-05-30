@@ -40,11 +40,13 @@ Grid::~Grid()
 
 int& Grid::operator()(int i, int j)
 {
+    assert(i < m_sideLen && j < m_sideLen && i > 0 && j > 0);
     return *(m_data + (i * m_sideLen + j));
 }
 
 const int& Grid::operator()(int i, int j) const
 {
+    assert(i < m_sideLen && j < m_sideLen && i > 0 && j > 0);
     return *(m_data + (i * m_sideLen + j));
 }
 
@@ -88,5 +90,9 @@ void Grid::empty()
     memset(m_data, 0, sizeof(int)*m_sideLen*m_sideLen);
 }
 
+int* Grid::getData()
+{
+    return m_data;
+}
 
 
