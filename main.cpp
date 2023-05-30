@@ -12,8 +12,9 @@
 int main(int argc, char *argv[])
 {
     int gridRes = -1;
+    int builderIndex = -1;
     Printer printer;
-    BuilderBitMaps* builder;
+    BuilderBase* builder;
     Grid* grid;
 
     std::chrono::high_resolution_clock::time_point start;
@@ -60,22 +61,49 @@ int main(int argc, char *argv[])
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
         }
+    }
+
+    while (builderIndex == -1)
+    {
+        std::cout << "Which building algorithm do want?: " << std::endl;
+        std::cout << "1. Classic Backtracking" << std::endl; 
+        std::cout << "2. Backtracking with bitmaps" << std::endl;
+
+        std::cin >> builderIndex;
         
-        builder = new BuilderBitMaps();
-
-        start = std::chrono::high_resolution_clock::now();
-        builder->fillSudoku(*grid);
-        end = std::chrono::high_resolution_clock::now();
-        time_span = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
-
-        printer.printGrid(*grid);
-
-        std::cout << "time to build: " << time_span.count() << " seconds" << std::endl;
-        std::cout << "recursive operations: " << builder->getUpdatesCount() << std::endl;
-
-        DancingLinksGrid g(*grid);
+        switch (builderIndex)
+        {
+            case 1:
+                // Builderbase
+                builder = new BuilderBase();
+                break;
+            case 2:
+                // BuilderBitMaps
+                builder = new BuilderBitMaps();
+                break;
+            default:
+                std::cout<< "ERROR: invalid input" << std::endl;
+                builderIndex = -1;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                break;
+        }
     }
     
+    builder = new BuilderBitMaps();
+
+    start = std::chrono::high_resolution_clock::now();
+    builder->fillSudoku(*grid);
+    end = std::chrono::high_resolution_clock::now();
+    time_span = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
+
+    printer.printGrid(*grid);
+
+    std::cout << "time to build: " << time_span.count() << " seconds" << std::endl;
+    std::cout << "recursive operations: " << builder->getUpdatesCount() << std::endl;
+
+    DancingLinksGrid g(*grid);
+
     delete builder;
     delete grid;
     return 0;
