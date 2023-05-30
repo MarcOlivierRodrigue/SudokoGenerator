@@ -11,6 +11,10 @@ int selectRandomNum(int max)
 
 bool isPerfectSquare(int num)
 {
+    if(num < 0)
+    {
+        return false;
+    }
     double sqrtNum = (double)sqrt(num);
     return ceil(sqrtNum) == floor(sqrtNum);
 }

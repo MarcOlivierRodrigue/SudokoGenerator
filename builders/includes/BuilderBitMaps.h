@@ -11,12 +11,12 @@ public:
     virtual void fillSudoku(Grid& grid) override;
 protected:
     void initBitMaps(const Grid& grid);
-    virtual bool isSquareLegal(const Grid& grid, int m_i, int m_j, int i, int j, int val) const override;
-    virtual void cancelPlacement(Grid& grid, int i, int j) override;
-    virtual void placeValue(Grid& grid, int i, int j, int val) override;  
+    virtual bool isSquareLegal(const Grid& grid, sg_uint m_i, sg_uint m_j, sg_uint i, sg_uint j, sg_uint val) const override;
+    virtual void cancelPlacement(Grid& grid, sg_uint i, sg_uint j) override;
+    virtual void placeValue(Grid& grid, sg_uint i, sg_uint j, sg_uint val) override;  
 private: 
-    inline int getSubGridIndex(int i, int j, int subGridRows, int subGridCols) const;
-    std::vector<int> m_subGridsBM;
-    std::vector<int> m_rowsBM;
-    std::vector<int> m_colsBM;
+    inline int getSubGridIndex(sg_uint i, sg_uint j, sg_uint subGridRows, sg_uint subGridCols) const;
+    std::vector<sg_uint> m_subGridsBM;
+    std::vector<sg_uint> m_rowsBM;
+    std::vector<sg_uint> m_colsBM;
 };

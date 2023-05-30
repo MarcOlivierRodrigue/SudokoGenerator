@@ -1,4 +1,5 @@
 #pragma once
+#include "Types.h"
 
 // Foward declaration of the grid Class and Square
 class Grid;
@@ -10,7 +11,7 @@ public:
     ~Printer();
     void printGrid(const Grid& grid) const;
 private:
-    void printLine(int len) const;
-    void printSquare(int square, int totalSpace) const;
-    int digitsInInt(int len) const;
+    void printLine(sg_uint len) const;
+    void printSquare(sg_uint square, sg_uint totalSpace) const;
+    sg_uint digitsInInt(sg_uint len) const;
 };

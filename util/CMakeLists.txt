@@ -1,5 +1,6 @@
 set(HEADERS
-    includes/Util.h)
+    includes/Util.h
+    includes/Types.h)
 
 set(SOURCES
     src/Util.cpp)

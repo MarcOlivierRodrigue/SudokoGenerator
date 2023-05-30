@@ -1,57 +1,65 @@
 #pragma once
+#include <vector>
 
-// Foward declaration of the grid Class and Square
+// Foward declarations
 class Grid;
+class ColumnHeader;
 
 class Node
 {
 public:
     Node();
+    Node(int i, int j, int val);
     virtual ~Node();
     void relinkTD();
     void unlinkTD();
     void relinkLR();
     void unlinkLR();
-    void setRowData(int val, int i, int j);
+    void linkRight(Node* n);
+    void linkDown(Node* n);
+    Node* getTop();
+    Node* getBottom();
+    Node* getLeft();
+    Node* getRight();
+    int getRowI() const;
+    int getRowJ() const;
+    int getRowVal() const;
 private:
     Node* m_right;
     Node* m_left;
     Node* m_bottom;
     Node* m_top;
-    //ColumnHeader* m_header;
-    int m_rowVal;
-    int m_rowI;
-    int m_rowJ;
+    ColumnHeader* m_header;
+    const int m_rowVal;
+    const int m_rowI;
+    const int m_rowJ;
 };
 
-/*
+
 class ColumnHeader : public Node
 {
 public:
     ColumnHeader();
     ~ColumnHeader();
-    void setSize(int size);
     void incrementSize();
     void decrementSize();
+    void setSize(int size);
     int getSize() const;
-    void setColId(int colId);
-    int getColId() const;
 private:
-    int m_colId = -1;
-    int m_size = 0;
+    int m_size;
 };
-
 
 class DancingLinksGrid
 {
 public:
     DancingLinksGrid(const Grid& grid);
     ~DancingLinksGrid();
-    ColumnHeader* getRoot();
 private:
+    void addRow(int i, int j, int val);
     DancingLinksGrid();
-    ColumnHeader* root;
+    ColumnHeader m_root;
+    std::vector<ColumnHeader*> m_headers;
+    std::vector<Node*> m_nodes;
 };
-*/
 
 

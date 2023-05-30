@@ -4,15 +4,16 @@
 #include <ctime>
 #include "Grid.h"
 #include "Printer.h"
-#include "BuilderBase.h"
 #include "BuilderBitMaps.h"
+#include "DancingLinks.h"
+
 
 
 int main(int argc, char *argv[])
 {
     int gridRes = -1;
     Printer printer;
-    BuilderBase* builder;
+    BuilderBitMaps* builder;
     Grid* grid;
 
     std::chrono::high_resolution_clock::time_point start;
@@ -71,6 +72,8 @@ int main(int argc, char *argv[])
 
         std::cout << "time to build: " << time_span.count() << " seconds" << std::endl;
         std::cout << "recursive operations: " << builder->getUpdatesCount() << std::endl;
+
+        DancingLinksGrid g(*grid);
     }
     
     delete builder;

@@ -6,7 +6,7 @@
 Printer::Printer() {}
 Printer::~Printer() {}
 
-void Printer::printLine(int len) const 
+void Printer::printLine(sg_uint len) const 
 {
     for(int i = 0; i < len; ++i)
     {
@@ -15,19 +15,12 @@ void Printer::printLine(int len) const
     std::cout << "\n";
 }
 
-int Printer::digitsInInt(int num) const
+sg_uint Printer::digitsInInt(sg_uint num) const
 {
-    if(num > 0)
-    {
-        return int(log10(double(num)) + 1);
-    }
-    else
-    {
-        return 1;
-    }
+    return sg_uint(log10(double(num)) + 1);
 }
 
-void Printer::printSquare(int square, int totalSpace) const
+void Printer::printSquare(sg_uint square, sg_uint totalSpace) const
 {
     if(square != 0)
     {
@@ -51,12 +44,12 @@ void Printer::printSquare(int square, int totalSpace) const
 
 void Printer::printGrid(const Grid& grid) const
 {
-    int sideLen = grid.getSideLen();
-    int subGridCols =  grid.getSubGridCols();
-    int subGridRows = grid.getSubGridRows();
+    sg_uint sideLen = grid.getSideLen();
+    sg_uint subGridCols =  grid.getSubGridCols();
+    sg_uint subGridRows = grid.getSubGridRows();
 
-    int charPerSquare = digitsInInt(sideLen) + 2;
-    int lineLen = sideLen * (charPerSquare + 1) +  sideLen / grid.getSubGridCols();
+    sg_uint charPerSquare = digitsInInt(sideLen) + 2;
+    sg_uint lineLen = sideLen * (charPerSquare + 1) +  sideLen / grid.getSubGridCols();
     
     printLine(lineLen);
     for(int i = 0; i < sideLen; ++i)
