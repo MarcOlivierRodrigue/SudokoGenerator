@@ -14,8 +14,8 @@ BuilderBase::~BuilderBase() {}
 
 void BuilderBase::fillSudoku(Grid& grid)
 {
-    sg_uint sideLen = grid.getSideLen(); 
-    sg_uint subGridCols = grid.getSubGridCols();
+    int sideLen = grid.getSideLen(); 
+    int subGridCols = grid.getSubGridCols();
     resetUpdates();
 
     bool nonSolvableProb = true;
@@ -31,31 +31,31 @@ void BuilderBase::fillSudoku(Grid& grid)
 // Since the subgrids on the diagnal axis are independant, we fill them in naivly 
 void BuilderBase::fillDiagnal(Grid& grid)
 {
-    sg_uint subGridRows = grid.getSubGridRows();
-    sg_uint subGridCols = grid.getSubGridCols();
-    sg_uint len = subGridRows > subGridCols ? subGridCols : subGridRows;
+    int subGridRows = grid.getSubGridRows();
+    int subGridCols = grid.getSubGridCols();
+    int len = subGridRows > subGridCols ? subGridCols : subGridRows;
 
-    for(sg_uint k = 0; k < len;  ++k)
+    for(int k = 0; k < len;  ++k)
     {
         fillDiagnalSubGrid(grid, k*subGridRows, k*subGridCols);
     }
 }
 
-void BuilderBase::fillDiagnalSubGrid(Grid& grid, sg_uint m_i, sg_uint m_j)
+void BuilderBase::fillDiagnalSubGrid(Grid& grid, int m_i, int m_j)
 {
-    std::vector<sg_uint> numVec;
-    sg_uint sideLen = grid.getSideLen();
-    sg_uint subGridCols = grid.getSubGridCols();
+    std::vector<int> numVec;
+    int sideLen = grid.getSideLen();
+    int subGridCols = grid.getSubGridCols();
 
-    for(sg_uint k = 1; k <= sideLen; ++k)
+    for(int k = 1; k <= sideLen; ++k)
     {
         numVec.push_back(k);
     }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::shuffle(numVec.begin(), numVec.end(), std::default_random_engine(seed));
 
-    sg_uint i = 0;
-    sg_uint j = 0;
+    int i = 0;
+    int j = 0;
 
     for(int k = 0; k < sideLen; ++k)
     {
@@ -67,11 +67,11 @@ void BuilderBase::fillDiagnalSubGrid(Grid& grid, sg_uint m_i, sg_uint m_j)
 }
 
 // Classic backtracking algorithm
-bool BuilderBase::fillNonDiagnal(Grid& grid, sg_uint i, sg_uint j)
+bool BuilderBase::fillNonDiagnal(Grid& grid, int i, int j)
 {
-    sg_uint sideLen = grid.getSideLen(); 
-    sg_uint subGridRows = grid.getSubGridRows();
-    sg_uint subGridCols = grid.getSubGridCols();
+    int sideLen = grid.getSideLen(); 
+    int subGridRows = grid.getSubGridRows();
+    int subGridCols = grid.getSubGridCols();
 
     // ignore the diagnal subgrids
     if(grid.getSubGridXIndex(j) == grid.getSubGridYIndex(i))
@@ -96,10 +96,10 @@ bool BuilderBase::fillNonDiagnal(Grid& grid, sg_uint i, sg_uint j)
         return true;
     }
     
-    sg_uint m_i = grid.getSubGridYMargin(i);
-    sg_uint m_j = grid.getSubGridXMargin(j);
-    sg_uint k = selectRandomNum(sideLen);
-    sg_uint ki = 0;
+    int m_i = grid.getSubGridYMargin(i);
+    int m_j = grid.getSubGridXMargin(j);
+    int k = selectRandomNum(sideLen);
+    int ki = 0;
 
     while(ki < sideLen)
     {
@@ -123,12 +123,12 @@ bool BuilderBase::fillNonDiagnal(Grid& grid, sg_uint i, sg_uint j)
     return false;
 }
 
-void BuilderBase::cancelPlacement(Grid& grid, sg_uint i, sg_uint j)
+void BuilderBase::cancelPlacement(Grid& grid, int i, int j)
 {
     grid(i,j) = 0;
 }
 
-void BuilderBase::placeValue(Grid& grid, sg_uint i, sg_uint j, sg_uint val)
+void BuilderBase::placeValue(Grid& grid, int i, int j, int val)
 {
     grid(i,j) = val;
 }

@@ -1,27 +1,26 @@
 #pragma once
-#include "Types.h"
 
 class Grid
 {
 public:
-    Grid(sg_uint sideLen);
-    Grid(sg_uint sideLen, sg_uint subGridRows, sg_uint subGridCols);
+    Grid(int sideLen);
+    Grid(int sideLen, int subGridRows, int subGridCols);
     Grid(const Grid& grid);
     ~Grid();
-    sg_uint& operator() (sg_uint i, sg_uint j);
-    const sg_uint& operator() (sg_uint i, sg_uint j) const;
-    sg_uint getSideLen() const;
-    sg_uint getSubGridRows() const;
-    sg_uint getSubGridCols() const; 
-    sg_uint getSubGridXIndex(sg_uint j) const;
-    sg_uint getSubGridYIndex(sg_uint i) const;
-    sg_uint getSubGridXMargin(sg_uint j) const;
-    sg_uint getSubGridYMargin(sg_uint i) const;
+    int& operator() (int i, int j);
+    const int& operator() (int i, int j) const;
+    int getSideLen() const;
+    int getSubGridRows() const;
+    int getSubGridCols() const; 
+    int getSubGridXIndex(int j) const;
+    int getSubGridYIndex(int i) const;
+    int getSubGridXMargin(int j) const;
+    int getSubGridYMargin(int i) const;
     void empty();
 private:
     Grid();
-    const sg_uint m_sideLen;
-    const sg_uint m_subGridRows;
-    const sg_uint m_subGridCols;
-    sg_uint* m_data;
+    const int m_sideLen;
+    const int m_subGridRows;
+    const int m_subGridCols;
+    int* m_data;
 };

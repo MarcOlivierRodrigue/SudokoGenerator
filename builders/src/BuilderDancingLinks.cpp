@@ -4,9 +4,9 @@
 
 void BuilderDancingLinks::fillSudoku(Grid& grid)
 {
-    sg_uint sideLen = grid.getSideLen(); 
-    sg_uint subGridRows = grid.getSubGridRows();
-    sg_uint subGridCols = grid.getSubGridCols();
+    int sideLen = grid.getSideLen(); 
+    int subGridRows = grid.getSubGridRows();
+    int subGridCols = grid.getSubGridCols();
 
     bool nonSolvableProb = true;
 

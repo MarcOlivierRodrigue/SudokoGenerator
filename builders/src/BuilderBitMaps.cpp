@@ -7,8 +7,8 @@ BuilderBitMaps::~BuilderBitMaps() {}
 
 void BuilderBitMaps::fillSudoku(Grid& grid)
 {
-    sg_uint sideLen = grid.getSideLen(); 
-    sg_uint subGridCols = grid.getSubGridCols();
+    int sideLen = grid.getSideLen(); 
+    int subGridCols = grid.getSubGridCols();
     resetUpdates();
 
     bool nonSolvableProb = true;
@@ -23,17 +23,17 @@ void BuilderBitMaps::fillSudoku(Grid& grid)
     }
 }
 
-bool BuilderBitMaps::isSquareLegal(const Grid& grid, sg_uint m_i, sg_uint m_j, sg_uint i, sg_uint j, sg_uint val) const
+bool BuilderBitMaps::isSquareLegal(const Grid& grid, int m_i, int m_j, int i, int j, int val) const
 {
-    sg_uint subGridRows = grid.getSubGridRows();
-    sg_uint subGridCols = grid.getSubGridCols();
+    int subGridRows = grid.getSubGridRows();
+    int subGridCols = grid.getSubGridCols();
 
     return !(m_subGridsBM[getSubGridIndex(i,j,subGridRows,subGridCols)] & (1 << val)) && !(m_rowsBM[i] & (1 << val)) && !(m_colsBM[j] & (1 << val));
 }
 
 void BuilderBitMaps::initBitMaps(const Grid& grid)
 {
-    sg_uint sideLen = grid.getSideLen();
+    int sideLen = grid.getSideLen();
 
     m_subGridsBM.resize(sideLen);
     m_rowsBM.resize(sideLen);
@@ -44,15 +44,15 @@ void BuilderBitMaps::initBitMaps(const Grid& grid)
     std::fill(m_colsBM.begin(), m_colsBM.end(), 0);
 }
 
-inline int BuilderBitMaps::getSubGridIndex(sg_uint i, sg_uint j, sg_uint subGridRows, sg_uint subGridCols) const
+inline int BuilderBitMaps::getSubGridIndex(int i, int j, int subGridRows, int subGridCols) const
 {
     return i / subGridRows * subGridRows + j / subGridCols;
 }
 
-void BuilderBitMaps::cancelPlacement(Grid& grid, sg_uint i, sg_uint j)
+void BuilderBitMaps::cancelPlacement(Grid& grid, int i, int j)
 {
-    sg_uint subGridRows = grid.getSubGridRows();
-    sg_uint subGridCols = grid.getSubGridCols();
+    int subGridRows = grid.getSubGridRows();
+    int subGridCols = grid.getSubGridCols();
 
     m_subGridsBM[getSubGridIndex(i,j,subGridRows,subGridCols)] ^= 1 << grid(i,j);
     m_rowsBM[i] ^= 1 << grid(i,j);
@@ -60,10 +60,10 @@ void BuilderBitMaps::cancelPlacement(Grid& grid, sg_uint i, sg_uint j)
     grid(i,j) = 0;
 }
 
-void BuilderBitMaps::placeValue(Grid& grid, sg_uint i, sg_uint j, sg_uint val)
+void BuilderBitMaps::placeValue(Grid& grid, int i, int j, int val)
 {
-    sg_uint subGridRows = grid.getSubGridRows();
-    sg_uint subGridCols = grid.getSubGridCols();
+    int subGridRows = grid.getSubGridRows();
+    int subGridCols = grid.getSubGridCols();
 
     m_subGridsBM[getSubGridIndex(i,j,subGridRows,subGridCols)] |= 1 << val;
     m_rowsBM[i] |= 1 << val;
