@@ -90,8 +90,6 @@ int main(int argc, char *argv[])
         }
     }
     
-    builder = new BuilderBitMaps();
-
     start = std::chrono::high_resolution_clock::now();
     builder->fillSudoku(*grid);
     end = std::chrono::high_resolution_clock::now();
