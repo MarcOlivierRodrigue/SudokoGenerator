@@ -1,9 +1,7 @@
 #include "Util.h"
 #include "gtest/gtest.h"
-#include <limits.h>
 #include <set>
 #include <vector>
-#include <iostream>
 
 TEST(Util, isPerctSquare)
 {
