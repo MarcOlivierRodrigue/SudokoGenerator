@@ -1,11 +1,11 @@
 set(HEADERS 
     includes/Grid.h
-    includes/DancingLinks.h
+    includes/DancingLinksGrid.h
     includes/Printer.h)
 
 set(SOURCES 
     src/Grid.cpp
-    src/DancingLinks.cpp
+    src/DancingLinksGrid.cpp
     src/Printer.cpp)
 
 add_library(structures ${HEADERS} ${SOURCES})

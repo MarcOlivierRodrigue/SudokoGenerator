@@ -5,7 +5,7 @@
 #include "Grid.h"
 #include "Printer.h"
 #include "BuilderBitMaps.h"
-#include "DancingLinks.h"
+#include "DancingLinksGrid.h"
 
 
 
@@ -89,7 +89,16 @@ int main(int argc, char *argv[])
                 break;
         }
     }
-    
+
+    // TEST ////////////////////////////////////////////////////////////////////////////////
+    start = std::chrono::high_resolution_clock::now();
+    DancingLinksGrid g(*grid);
+    end = std::chrono::high_resolution_clock::now();
+    time_span = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
+
+    std::cout << "time to build: " << time_span.count() << " seconds" << std::endl;
+    ////////////////////////////////////////////////////////////////////////////////////////
+
     start = std::chrono::high_resolution_clock::now();
     builder->fillSudoku(*grid);
     end = std::chrono::high_resolution_clock::now();
@@ -100,7 +109,6 @@ int main(int argc, char *argv[])
     std::cout << "time to build: " << time_span.count() << " seconds" << std::endl;
     std::cout << "recursive operations: " << builder->getUpdatesCount() << std::endl;
 
-    DancingLinksGrid g(*grid);
 
     delete builder;
     delete grid;
