@@ -1,30 +1,13 @@
+#include <math.h>
 #include "Grid.h"
 #include "DancingLinksGrid.h"
+#include "Util.h"
+#include <assert.h>
 
-//-------------------------------------------- Row Info -----------------------------------------------//
-
-RowInfo::RowInfo(int i, int j, int val) : m_row(i), m_col(j), m_val(val)
-{}
-
-int RowInfo::getRow() const
-{
-    return m_row;
-}
-
-int RowInfo::getCol() const
-{
-    return m_col;
-}
-
-int RowInfo::getVal() const
-{
-    return m_val;
-}
+#include <iostream>
 
 //-------------------------------------------- Node --------------------------------------------------//
-
-
-Node::Node() : m_rowInfo(nullptr)
+Node::Node() : m_i(-1), m_j(-1), m_val(-1)
 {
     m_bottom = this;
     m_top = this;
@@ -32,7 +15,7 @@ Node::Node() : m_rowInfo(nullptr)
     m_right = this;
 }
 
-Node::Node(RowInfo* rowInfo) : m_rowInfo(rowInfo)
+Node::Node(int i, int j, int val) : m_i(i), m_j(j), m_val(val)
 {
     m_bottom = this;
     m_top = this;
@@ -95,6 +78,7 @@ void Node::linkToColumn(ColumnHeader* c)
         curr = curr->m_bottom;
     }
     curr->linkDown(this);
+    m_header->incrementSize();
 }
 
 Node* Node::getTop()
@@ -115,6 +99,21 @@ Node* Node::getLeft()
 Node* Node::getRight()
 {
     return m_right;
+}
+
+int Node::getI() const
+{
+    return m_i;
+}
+
+int Node::getJ() const
+{
+    return m_j;
+}
+
+int Node::getVal() const
+{
+    return m_val;
 }
 
 //-------------------------------------------- Column Header --------------------------------------------------//
@@ -151,15 +150,25 @@ void ColumnHeader::decrementSize()
 
 //-------------------------------------------- Dancing Links Grid --------------------------------------------------//
 
-DancingLinksGrid::DancingLinksGrid(const Grid& grid)
+DancingLinksGrid::DancingLinksGrid(const Grid& grid) : DancingLinksGrid(grid.getSideLen(), grid.getSubGridRows(), grid.getSubGridCols()) 
 {
-    m_sudokuSideLen = grid.getSideLen();
-    m_sudokuSubGridCols = grid.getSubGridCols();
-    m_sudokuSubGridRows = grid.getSubGridRows();
+}
+
+DancingLinksGrid::DancingLinksGrid(int sideLen) : DancingLinksGrid(sideLen, sqrt(sideLen), sqrt(sideLen))
+{
+    assert(isPerfectSquare(sideLen));
+}
+
+DancingLinksGrid::DancingLinksGrid(int sideLen, int subGridRows, int subGridCols)
+{
+    assert(subGridRows*subGridCols == sideLen);
+
+    m_sudokuSideLen = sideLen;
+    m_sudokuSubGridCols = subGridRows;
+    m_sudokuSubGridRows = subGridCols;
 
     int colLen = 4 * m_sudokuSideLen * m_sudokuSideLen;
-    int rowInfoLen = m_sudokuSideLen * m_sudokuSideLen * m_sudokuSideLen;
-    int nodesLen = rowInfoLen * 4;
+    int nodesLen = colLen * m_sudokuSideLen;
     
 
     // Fill the column header list
@@ -172,33 +181,16 @@ DancingLinksGrid::DancingLinksGrid(const Grid& grid)
         m_headers[i-1]->linkRight(m_headers[i]);
     }
 
-    // Fill the row info list
-    m_rowInfos.reserve(rowInfoLen);
+    // Fill the node list
+    m_nodes.reserve(nodesLen);
     for(int i = 0; i < m_sudokuSideLen; ++i)
     {
         for(int j = 0; j < m_sudokuSideLen; ++j)
         {
             for(int k = 1; k <= m_sudokuSideLen; ++k)
             {
-                m_rowInfos.push_back(new RowInfo(i, j, k));
+                addGridRowNodes(i, j, k);
             }
-        }
-    }
-
-    // Create the row info list
-    m_nodes.reserve(nodesLen);
-    std::array<int, 4> headerIndexes; 
-    for(int i = 0; i < rowInfoLen; ++i)
-    {
-        getHeaderIndexes(m_rowInfos[i], headerIndexes);
-        m_nodes.push_back(new Node(m_rowInfos[i]));
-        m_nodes[i*4]->linkToColumn(m_headers[headerIndexes[0]]);
-
-        for(int j = 1; j < 4; ++j)
-        {
-            int newNodeIndex = i * 4 + j;
-            m_nodes.push_back(new Node(m_rowInfos[i]));
-            m_nodes[newNodeIndex - 1]->linkRight(m_nodes[newNodeIndex]);
         }
     }
 }
@@ -214,19 +206,10 @@ DancingLinksGrid::~DancingLinksGrid()
     {
         delete m_nodes[i];
     }
-
-    for(int i = 0; i < m_rowInfos.size(); ++i)
-    {
-        delete m_rowInfos[i];
-    }
 }
 
-void DancingLinksGrid::getHeaderIndexes(const RowInfo* const rowInfo, std::array<int, 4>& cols) const
+void DancingLinksGrid::getHeaderIndexes(int i, int j, int val, std::array<int, 4>& cols) const
 {
-    int i = rowInfo->getRow();
-    int j = rowInfo->getCol();
-    int val = rowInfo->getVal();
-    
     int subGridIndex = i / m_sudokuSubGridRows * m_sudokuSubGridRows + j / m_sudokuSubGridCols;
     int columnGridSectionLen = m_sudokuSideLen * m_sudokuSideLen; 
 
@@ -234,4 +217,23 @@ void DancingLinksGrid::getHeaderIndexes(const RowInfo* const rowInfo, std::array
     cols[1] = columnGridSectionLen + (i * m_sudokuSideLen + (val - 1));
     cols[2] = columnGridSectionLen * 2 + (j * m_sudokuSideLen + (val - 1));
     cols[3] = columnGridSectionLen * 3 + (subGridIndex * m_sudokuSideLen + (val - 1));
+}
+
+
+
+void DancingLinksGrid::addGridRowNodes(int i, int j, int val)
+{
+    std::array<int, 4> headerIndexes;
+    getHeaderIndexes(i, j, val, headerIndexes);
+    m_nodes.push_back(new Node(i, j, val));
+    int index = m_nodes.size() - 1;
+    m_nodes[index]->linkToColumn(m_headers[headerIndexes[0]]);
+
+    for(int k = 1; k < 4; ++k)
+    {
+        m_nodes.push_back(new Node(i, j, k));
+        m_nodes[index]->linkRight(m_nodes[index + 1]);
+        ++index;
+        m_nodes[index]->linkToColumn(m_headers[headerIndexes[k]]);
+    }
 }

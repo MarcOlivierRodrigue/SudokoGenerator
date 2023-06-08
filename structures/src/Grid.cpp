@@ -4,14 +4,9 @@
 #include <assert.h>
 #include <string.h>
 
-Grid::Grid(int sideLen) : 
-    m_sideLen(sideLen), 
-    m_subGridRows(sqrt(sideLen)),
-    m_subGridCols(sqrt(sideLen))
+Grid::Grid(int sideLen) : Grid(sideLen, sqrt(sideLen), sqrt(sideLen))
 {
     assert(isPerfectSquare(sideLen));
-    m_data = new int[sideLen*sideLen];
-    empty();
 }
 
 Grid::Grid(int sideLen, int subGridRows, int subGridCols) :

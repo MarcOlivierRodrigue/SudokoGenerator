@@ -6,24 +6,10 @@
 class Grid;
 class ColumnHeader;
 
-class RowInfo
-{
-    public:
-        RowInfo(int i, int j, int val);
-        int getRow() const;
-        int getCol() const;
-        int getVal() const;
-    private:
-        RowInfo();
-        const int m_val;
-        const int m_row;
-        const int m_col;
-};
-
 class Node
 {
 public:
-    Node(RowInfo* rowInfo);
+    Node(int i, int j, int val);
     virtual ~Node();
     void relinkTD();
     void unlinkTD();
@@ -36,9 +22,9 @@ public:
     Node* getBottom();
     Node* getLeft();
     Node* getRight();
-    int getRowI() const;
-    int getRowJ() const;
-    int getRowVal() const;
+    int getI() const;
+    int getJ() const;
+    int getVal() const;
 protected:
     Node();
 private:
@@ -47,7 +33,9 @@ private:
     Node* m_bottom;
     Node* m_top;
     ColumnHeader* m_header;
-    const RowInfo* const m_rowInfo;
+    const int m_i;
+    const int m_j;
+    const int m_val;
 };
 
 
@@ -68,14 +56,15 @@ class DancingLinksGrid
 {
 public:
     DancingLinksGrid(const Grid& grid);
+    DancingLinksGrid(int sideLen);
+    DancingLinksGrid(int sideLen, int subGridRows, int subGridCols);
     ~DancingLinksGrid();
-    void getHeaderIndexes(const RowInfo* const rowInfo, std::array<int, 4>& cols) const; 
-    void addGridRowNodes(const RowInfo* const rowInfo);
+    void getHeaderIndexes(int i, int j, int val, std::array<int, 4>& cols) const; 
+    void addGridRowNodes(int i, int j, int val);
 private:
     DancingLinksGrid();
     ColumnHeader m_root;
     std::vector<ColumnHeader*> m_headers;
-    std::vector<RowInfo*> m_rowInfos;
     std::vector<Node*> m_nodes;
     int m_sudokuSideLen;
     int m_sudokuSubGridRows;

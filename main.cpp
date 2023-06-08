@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 
     // TEST ////////////////////////////////////////////////////////////////////////////////
     start = std::chrono::high_resolution_clock::now();
-    DancingLinksGrid g(*grid);
+    DancingLinksGrid g(9);
     end = std::chrono::high_resolution_clock::now();
     time_span = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
 
