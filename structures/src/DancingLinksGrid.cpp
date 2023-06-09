@@ -23,17 +23,17 @@ Node::Node(int i, int j, int val) : m_i(i), m_j(j), m_val(val)
 
 Node::~Node()
 {
-    unlinkTD();
+    unlinkTB();
     unlinkLR();
 }
 
-void Node::unlinkTD()
+void Node::unlinkTB()
 {
     m_top->m_bottom = m_bottom;
     m_bottom->m_top = m_top;
 }
 
-void Node::relinkTD()
+void Node::relinkTB()
 {
     m_top->m_bottom = this;
     m_bottom->m_top = this;
@@ -59,7 +59,7 @@ void Node::linkRight(Node* n)
     n->m_left = this;
 }
 
-void Node::linkDown(Node* n)
+void Node::linkBottom(Node* n)
 {
     n->m_bottom = this->m_bottom;
     n->m_bottom->m_top = n;
@@ -75,7 +75,7 @@ void Node::linkToColumn(ColumnHeader* c)
     {
         curr = curr->m_bottom;
     }
-    curr->linkDown(this);
+    curr->linkBottom(this);
     m_header->incrementSize();
 }
 
@@ -165,32 +165,7 @@ DancingLinksGrid::DancingLinksGrid(int sideLen, int subGridRows, int subGridCols
     m_sudokuSubGridCols = subGridRows;
     m_sudokuSubGridRows = subGridCols;
 
-    int colLen = 4 * m_sudokuSideLen * m_sudokuSideLen;
-    int nodesLen = colLen * m_sudokuSideLen;
-    
-
-    // Fill the column header list
-    m_headers.reserve(colLen);
-    m_headers.push_back(new ColumnHeader());
-    m_root.linkRight(m_headers[0]);
-    for(int i = 1; i < colLen; ++i)
-    {
-        m_headers.push_back(new ColumnHeader());
-        m_headers[i-1]->linkRight(m_headers[i]);
-    }
-
-    // Fill the node list
-    m_nodes.reserve(nodesLen);
-    for(int i = 0; i < m_sudokuSideLen; ++i)
-    {
-        for(int j = 0; j < m_sudokuSideLen; ++j)
-        {
-            for(int k = 1; k <= m_sudokuSideLen; ++k)
-            {
-                addGridRowNodes(i, j, k);
-            }
-        }
-    }
+    initHeaders();
 }
 
 DancingLinksGrid::~DancingLinksGrid()
@@ -203,6 +178,20 @@ DancingLinksGrid::~DancingLinksGrid()
     for(int i = 0; i < m_nodes.size(); ++i)
     {
         delete m_nodes[i];
+    }
+}
+
+void DancingLinksGrid::initHeaders()
+{
+    int colLen = 4 * m_sudokuSideLen * m_sudokuSideLen;
+
+    m_headers.reserve(colLen);
+    m_headers.push_back(new ColumnHeader());
+    m_root.linkRight(m_headers[0]);
+    for(int i = 1; i < colLen; ++i)
+    {
+        m_headers.push_back(new ColumnHeader());
+        m_headers[i-1]->linkRight(m_headers[i]);
     }
 }
 
@@ -229,9 +218,45 @@ void DancingLinksGrid::addGridRowNodes(int i, int j, int val)
 
     for(int k = 1; k < 4; ++k)
     {
-        m_nodes.push_back(new Node(i, j, k));
-        m_nodes[index]->linkRight(m_nodes[index + 1]);
+        m_nodes.push_back(new Node(i, j, val));
         ++index;
+        m_nodes[index - 1]->linkRight(m_nodes[index]);
         m_nodes[index]->linkToColumn(m_headers[headerIndexes[k]]);
     }
+}
+
+void DancingLinksGrid::initRows()
+{
+    assert(m_nodes.size() == 0);
+
+    int nodesLen = 4 * m_sudokuSideLen * m_sudokuSideLen * m_sudokuSideLen;
+
+    // Fill the node list
+    m_nodes.reserve(nodesLen);
+    for(int i = 0; i < m_sudokuSideLen; ++i)
+    {
+        for(int j = 0; j < m_sudokuSideLen; ++j)
+        {
+            for(int k = 1; k <= m_sudokuSideLen; ++k)
+            {
+                addGridRowNodes(i, j, k);
+            }
+        }
+    }
+}
+
+int DancingLinksGrid::getHeadersSize() const 
+{
+    return m_headers.size();
+}
+
+ColumnHeader* DancingLinksGrid::getColumnHeader(int i)
+{
+    assert(i >= 0 && i < m_headers.size());
+    return m_headers[i];
+}
+
+ColumnHeader* DancingLinksGrid::getRoot()
+{
+    return &m_root;
 }

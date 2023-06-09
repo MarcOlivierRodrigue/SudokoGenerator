@@ -11,12 +11,12 @@ class Node
 public:
     Node(int i, int j, int val);
     virtual ~Node();
-    void relinkTD();
-    void unlinkTD();
+    void relinkTB();
+    void unlinkTB();
     void relinkLR();
     void unlinkLR();
     void linkRight(Node* n);
-    void linkDown(Node* n);
+    void linkBottom(Node* n);
     void linkToColumn(ColumnHeader* c);
     Node* getTop();
     Node* getBottom();
@@ -61,6 +61,12 @@ public:
     ~DancingLinksGrid();
     void getHeaderIndexes(int i, int j, int val, std::array<int, 4>& cols) const; 
     void addGridRowNodes(int i, int j, int val);
+    ColumnHeader* getRoot();
+    ColumnHeader* getColumnHeader(int i);
+    void initRows();
+    int getHeadersSize() const;
+protected:
+    void initHeaders();
 private:
     DancingLinksGrid();
     ColumnHeader m_root;

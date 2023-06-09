@@ -12,9 +12,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(HEADERS includes/Grid_test.h)
+
 set(SOURCES src/Util_test.cpp
     src/Grid_test.cpp
-    src/DancingLinkGrid_test.cpp)
+    src/DancingLinksGrid_test.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
